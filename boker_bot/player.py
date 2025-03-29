@@ -96,10 +96,10 @@ class Player(Bot):
         # Cool Decision Making B)
 
         # If we just started and we call first: raise ten to guess behavior
-        if street == 0 and my_pip < 10:
-            return RaiseAction(10)
+        # if street == 0 and my_pip < 10:
+            # return RaiseAction(10)
         
-        straight = check_straight(my_cards)
+        straight = check_straight(my_cards, board_cards)
 
         if RaiseAction in legal_actions:
            min_raise, max_raise = round_state.raise_bounds()  # the smallest and largest numbers of chips for a legal bet/raise
@@ -113,16 +113,16 @@ class Player(Bot):
             return FoldAction()
         return CallAction()
 
-def check_straight(self, hand):
+def check_straight(hand, board):
     return False
 
-def check_four_kind(self, hand):
+def check_four_kind(hand, board):
     pass
 
-def check_three_kind(self, hand):
+def check_three_kind(hand, board):
     pass
 
-def check_pair(self, hand):
+def check_pair(hand, board):
     pass
 
 if __name__ == '__main__':
