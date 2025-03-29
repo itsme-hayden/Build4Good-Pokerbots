@@ -68,18 +68,6 @@ class Player(Bot):
         opp_cards = previous_state.hands[1-active]  # opponent's cards or [] if not revealed
         pass
 
-    def check_straight(self, hand):
-        pass
-
-    def check_four_kind(self, hand):
-        pass
-
-    def check_three_kind(self, hand):
-        pass
-
-    def check_pair(self, hand):
-        pass
-
     def get_action(self, game_state, round_state, active):
         '''
         Where the magic happens - your code should implement this function.
@@ -110,8 +98,6 @@ class Player(Bot):
         # If we just started and we call first: raise ten to guess behavior
         if street == 0 and my_pip < 10:
             return RaiseAction(10)
-        
-        straight = check_straight()
 
         if RaiseAction in legal_actions:
            min_raise, max_raise = round_state.raise_bounds()  # the smallest and largest numbers of chips for a legal bet/raise
@@ -124,7 +110,6 @@ class Player(Bot):
         if random.random() < 0.25: 
             return FoldAction()
         return CallAction()
-
 
 
 if __name__ == '__main__':
