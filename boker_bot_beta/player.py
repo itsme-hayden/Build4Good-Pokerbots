@@ -96,16 +96,15 @@ class Player(Bot):
         # Cool Decision Making B)
 
         # If we just started and we call first: raise ten to guess behavior
-        # if street == 0 and my_pip < 10:
-            # return RaiseAction(10)
+        if street == 0 and my_pip < 10:
+            return RaiseAction(10)
         
         straight = check_straight(my_cards, board_cards)
 
         if RaiseAction in legal_actions:
-           min_raise, max_raise = round_state.raise_bounds()  # the smallest and largest numbers of chips for a legal bet/raise
-           min_cost = min_raise - my_pip  # the cost of a minimum bet/raise
-           max_cost = max_raise - my_pip  # the cost of a maximum bet/raise
-        if RaiseAction in legal_actions:
+            min_raise, max_raise = round_state.raise_bounds()  # the smallest and largest numbers of chips for a legal bet/raise
+            min_cost = min_raise - my_pip  # the cost of a minimum bet/raise
+            max_cost = max_raise - my_pip  # the cost of a maximum bet/raise
             return RaiseAction(random.randint(min_cost, max_cost))
         if CheckAction in legal_actions:  # check-call
             return CheckAction()
