@@ -2,7 +2,7 @@
 
 Welcome to the Build4Good 2025 Pokerbot Challenge. Today you are tasked with building a bot to play a variant of poker.
 
-![image](https://pnimg.net/w/sitemap-attachments/1/65e/5a4ec2822c.jpg)
+<img src="https://pnimg.net/w/sitemap-attachments/1/65e/5a4ec2822c.jpg" width="400"/>
 
 ## Poker Variant Description
 
