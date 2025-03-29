@@ -8,7 +8,7 @@ from skeleton.bot import Bot
 from skeleton.runner import parse_args, run_bot
 
 import random
-
+import eval7
 
 class Player(Bot):
 
@@ -95,12 +95,54 @@ class Player(Bot):
 
         # Cool Decision Making B)
 
-        # If we just started and we call first: raise ten to guess behavior
+        # If we just started and we call first: raise ten to start
         if street == 0 and my_pip < 10:
             return RaiseAction(10)
         
-        straight = check_straight(my_cards, board_cards)
+        hand_type:str = eval7.handtype(eval7.evaluate([eval7.Card(i) for i in (my_cards + board_cards)]))
+        min_raise, max_raise = round_state.raise_bounds()
 
+        if street < 3:
+            # Good start, bet high
+            if hand_type.lower() == "trips":
+                if RaiseAction in legal_actions:
+                    return RaiseAction(min_raise + 100)
+            
+            # Decent start, scare opponent
+            if hand_type.lower() == "pair":
+                if RaiseAction in legal_actions:
+                    return RaiseAction(min_raise + 50)
+ 
+            # Bas start, quit if opponent is scary
+            if hand_type.lower() == "high card":
+                if continue_cost >= 100:
+                    return FoldAction()
+        
+        elif street >= 3:
+            if RaiseAction in legal_actions:
+                # We've gotta win. Go all in >:)
+                if hand_type.lower() in "flush:full house:quads:straight flush":
+                    return RaiseAction(max_raise)
+                
+                # Very good, bet very, very high
+                if hand_type.lower() == "straight":
+                    return RaiseAction(min_raise + 150)
+                    
+                # Pretty good, bet high
+                if hand_type.lower() == "trips":
+                    return RaiseAction(min_raise + 100)
+
+                # Decent, keep going
+                if hand_type.lower() == "pair":
+                    return RaiseAction(min_raise + 50)
+
+            # We're cooked :(
+            if hand_type.lower() == "high card":
+                return FoldAction()
+
+        return CallAction()
+
+        """
         if RaiseAction in legal_actions:
             min_raise, max_raise = round_state.raise_bounds()  # the smallest and largest numbers of chips for a legal bet/raise
             min_cost = min_raise - my_pip  # the cost of a minimum bet/raise
@@ -111,18 +153,7 @@ class Player(Bot):
         if random.random() < 0.25: 
             return FoldAction()
         return CallAction()
-
-def check_straight(hand, board):
-    return False
-
-def check_four_kind(hand, board):
-    pass
-
-def check_three_kind(hand, board):
-    pass
-
-def check_pair(hand, board):
-    pass
-
+        """
+    
 if __name__ == '__main__':
     run_bot(Player(), parse_args())
